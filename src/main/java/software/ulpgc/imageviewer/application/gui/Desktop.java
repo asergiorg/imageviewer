@@ -1,17 +1,22 @@
 package software.ulpgc.imageviewer.application.gui;
 
 import software.ulpgc.imageviewer.architecture.Command;
+import software.ulpgc.imageviewer.architecture.ImageToolBar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.DigestException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.awt.BorderLayout.*;
 import static java.awt.FlowLayout.CENTER;
 
-public class Desktop extends JFrame {
+public class Desktop extends JFrame implements ImageToolBar {
     private final Map<String, Command> commands;
+    private final JLabel imageName = new JLabel("", JLabel.CENTER);
+    private final JLabel memorySize = new JLabel("", JLabel.CENTER);
+    private final JLabel imageSize = new JLabel("", JLabel.CENTER);
 
     public static Desktop create(SwingImageDisplay imageDisplay) {
         return new Desktop(imageDisplay);
@@ -38,10 +43,19 @@ public class Desktop extends JFrame {
         JPanel panel = new JPanel(new FlowLayout(CENTER));
         panel.add(button(new Button("\uD83D\uDDD1",
                 "Suprimir",
-                32,
-                new Dimension(67, 67))));
+                30,
+                new Dimension(60, 60))));
+        panel.add(button(new Button("↻", "Girar a la derecha", 30, new Dimension(60, 60))));
+        panel.add(label(imageName, new Dimension(400, 25)));
         panel.setBackground(Color.GRAY);
         return panel;
+    }
+
+    private JLabel label(JLabel label, Dimension size) {
+        label.setOpaque(false);
+        label.setPreferredSize(size);
+        label.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 16));
+        return label;
     }
 
     private void createLowerToolBar() {
@@ -52,8 +66,10 @@ public class Desktop extends JFrame {
         JPanel panel = new JPanel(new FlowLayout(CENTER));
         panel.add(button(new Button("ⓘ",
                 "Información del archivo",
-                32,
-                new Dimension(67, 67))));
+                30,
+                new Dimension(60, 60))));
+        panel.add(label(imageSize, new Dimension(100, 25)));
+        panel.add(label(memorySize, new Dimension(100, 25)));
         panel.setBackground(Color.GRAY);
         return panel;
     }
@@ -110,7 +126,22 @@ public class Desktop extends JFrame {
         return this;
     }
 
-    private record Button(String name, String alias, int font, Dimension size) {}
+    @Override
+    public void showImageName(String name) {
+        imageName.setText(name);
+    }
+
+    @Override
+    public void showImageSize(int width, int height) {
+        imageSize.setText(width + "x" + height);
+    }
+
+    @Override
+    public void showImageMemorySize(long size) {
+        memorySize.setText("\uD83D\uDCBE  " + size + "KB" );
+    }
+
+    private record Button(String name, String alias, int font, Dimension size){}
 }
 
 

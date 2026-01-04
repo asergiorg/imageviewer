@@ -27,7 +27,6 @@ public class ImageProvider {
 
     private Image load(int index, Function<String, byte[]> loader) {
         return new Image() {
-            private final int size = images.size();
             private byte[] bitmap;
 
             @Override
@@ -43,12 +42,12 @@ public class ImageProvider {
 
             @Override
             public Image next() {
-                return index == size - 1 ? load(0, loader) : load((index + 1) % size, loader);
+                return index == images.size() - 1 ? load(0, loader) : load((index + 1) % images.size(), loader);
             }
 
             @Override
             public Image previous() {
-                return index == 0 ? load((size - 1) % size, loader) : load(index - 1, loader);
+                return index == 0 ? load((images.size() - 1) % images.size(), loader) : load(index - 1, loader);
             }
 
             @Override

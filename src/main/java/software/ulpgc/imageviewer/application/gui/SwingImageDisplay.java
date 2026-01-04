@@ -2,6 +2,7 @@ package software.ulpgc.imageviewer.application.gui;
 
 import software.ulpgc.imageviewer.architecture.Canvas;
 import software.ulpgc.imageviewer.architecture.ImageDisplay;
+import software.ulpgc.imageviewer.architecture.ImageMetrics;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,10 +18,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SwingImageDisplay extends JPanel implements ImageDisplay {
+public class SwingImageDisplay extends JPanel implements ImageDisplay, ImageMetrics {
     private Shift shift;
     private Released released;
     private Paint[] paints;
+    private int width, height;
+    private Runnable onFirstPaint;
+    private boolean firstPaintDone = false;
+
+    public void onFirstPaint(Runnable r) {
+        this.onFirstPaint = r;
+    }
 
     public SwingImageDisplay() {
         MouseAdapter mouseAdapter = new MouseAdapter();
@@ -60,10 +68,27 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay {
             BufferedImage bitmap = toBufferedImage(paint.bitmap());
             Canvas canvas = Canvas.ofSize(this.getWidth(), this.getHeight())
                     .fit(bitmap.getWidth(), bitmap.getHeight());
+            height = canvas.height();
+            width = canvas.width();
             int x = (this.getWidth() - canvas.width()) / 2;
             int y = (this.getHeight() - canvas.height()) / 2;
             g.drawImage(bitmap, x+paint.offset(), y, canvas.width(), canvas.height(), null);
         }
+        // Notificar solo la primera vez
+        if (!firstPaintDone && onFirstPaint != null) {
+            firstPaintDone = true;
+            onFirstPaint.run();
+        }
+    }
+
+    @Override
+    public int getCanvasWidth() {
+        return width;
+    }
+
+    @Override
+    public int getCanvasHeight() {
+        return height;
     }
 
     private class MouseAdapter implements MouseListener, MouseMotionListener {
@@ -114,8 +139,6 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay {
     public void on(Released released) {
         this.released = released;
     }
-
-
 
 }
 
