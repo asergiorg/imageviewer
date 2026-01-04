@@ -1,7 +1,10 @@
 package software.ulpgc.imageviewer.application.gui;
 
 import software.ulpgc.imageviewer.application.FileImageStore;
-import software.ulpgc.imageviewer.architecture.*;
+import software.ulpgc.imageviewer.architecture.control.*;
+import software.ulpgc.imageviewer.architecture.io.ImageStore;
+import software.ulpgc.imageviewer.architecture.presenter.ImagePresenter;
+import software.ulpgc.imageviewer.architecture.tasks.ImageProvider;
 
 import java.io.File;
 import java.io.IOException;

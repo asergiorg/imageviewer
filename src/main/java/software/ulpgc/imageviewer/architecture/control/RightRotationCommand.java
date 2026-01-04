@@ -1,6 +1,6 @@
-package software.ulpgc.imageviewer.architecture;
+package software.ulpgc.imageviewer.architecture.control;
 
-import java.awt.*;
+import software.ulpgc.imageviewer.architecture.presenter.ImagePresenter;
 
 public class RightRotationCommand implements Command {
     private final ImagePresenter imagePresenter;

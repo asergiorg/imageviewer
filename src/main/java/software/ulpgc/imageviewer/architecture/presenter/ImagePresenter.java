@@ -1,7 +1,11 @@
-package software.ulpgc.imageviewer.architecture;
+package software.ulpgc.imageviewer.architecture.presenter;
 
 import software.ulpgc.imageviewer.application.gui.SwingImageDisplay;
-import software.ulpgc.imageviewer.architecture.ImageDisplay.Paint;
+import software.ulpgc.imageviewer.architecture.view.ImageDisplay;
+import software.ulpgc.imageviewer.architecture.view.ImageDisplay.Paint;
+import software.ulpgc.imageviewer.architecture.tasks.ImageMetrics;
+import software.ulpgc.imageviewer.architecture.view.ImageToolBar;
+import software.ulpgc.imageviewer.architecture.model.Image;
 
 public class ImagePresenter {
     private final ImageDisplay display;
@@ -25,20 +29,22 @@ public class ImagePresenter {
         ));
         this.display.on((ImageDisplay.Released) offset -> {
             if (Math.abs(offset) * 2 > display.width()) image = offset < 0 ? image.next() : image.previous();
-            //System.out.println(image.id());
             display.paint(new Paint(image.bitmap(), 0, image.rotation()));
-            toolBar.showImageName(image.id());
-            toolBar.showImageMemorySize(image.size());
-            toolBar.showImageSize(metrics.getCanvasWidth(), metrics.getCanvasHeight());
+            refreshImageInformation(image);
         });
     }
 
     public void show(Image image) {
         this.image = image;
         this.display.paint(new Paint(image.bitmap(), 0, image.rotation()));
-        this.toolBar.showImageName(image().id());
-        this.toolBar.showImageMemorySize(image.size());
-        toolBar.showImageSize(metrics.getCanvasWidth(), metrics.getCanvasHeight());
+        refreshImageInformation(image);
+    }
+
+    private void refreshImageInformation(Image image) {
+        toolBar.showImageName(image.id());
+        toolBar.showImageMemorySize(image.size());
+        if ((image.rotation() / 2) % 2 == 0) toolBar.showImageSize(metrics.getCanvasWidth(), metrics.getCanvasHeight());
+        else toolBar.showImageSize(metrics.getCanvasHeight(), metrics.getCanvasWidth());
     }
 
     public Image image() {

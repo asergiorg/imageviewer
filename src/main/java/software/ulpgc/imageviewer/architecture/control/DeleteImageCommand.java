@@ -1,4 +1,8 @@
-package software.ulpgc.imageviewer.architecture;
+package software.ulpgc.imageviewer.architecture.control;
+
+import software.ulpgc.imageviewer.architecture.tasks.ImageProvider;
+import software.ulpgc.imageviewer.architecture.model.Image;
+import software.ulpgc.imageviewer.architecture.presenter.ImagePresenter;
 
 import java.io.File;
 

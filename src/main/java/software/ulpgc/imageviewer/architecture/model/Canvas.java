@@ -1,4 +1,4 @@
-package software.ulpgc.imageviewer.architecture;
+package software.ulpgc.imageviewer.architecture.model;
 
 public record Canvas(int width, int height) {
     public static Canvas ofSize(int width, int height) {

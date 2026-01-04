@@ -1,4 +1,6 @@
-package software.ulpgc.imageviewer.architecture;
+package software.ulpgc.imageviewer.architecture.tasks;
+
+import software.ulpgc.imageviewer.architecture.model.Image;
 
 import java.io.File;
 import java.nio.file.Path;

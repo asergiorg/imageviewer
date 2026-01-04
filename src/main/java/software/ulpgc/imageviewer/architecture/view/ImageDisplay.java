@@ -1,4 +1,4 @@
-package software.ulpgc.imageviewer.architecture;
+package software.ulpgc.imageviewer.architecture.view;
 
 public interface ImageDisplay {
 

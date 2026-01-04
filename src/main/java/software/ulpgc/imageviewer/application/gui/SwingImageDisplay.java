@@ -1,8 +1,8 @@
 package software.ulpgc.imageviewer.application.gui;
 
-import software.ulpgc.imageviewer.architecture.Canvas;
-import software.ulpgc.imageviewer.architecture.ImageDisplay;
-import software.ulpgc.imageviewer.architecture.ImageMetrics;
+import software.ulpgc.imageviewer.architecture.model.Canvas;
+import software.ulpgc.imageviewer.architecture.view.ImageDisplay;
+import software.ulpgc.imageviewer.architecture.tasks.ImageMetrics;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -68,24 +68,41 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay, ImageMetr
         g2.fillRect(0,0,this.getWidth(), this.getHeight());
         for (Paint paint : paints) {
             BufferedImage bitmap = toBufferedImage(paint.bitmap());
-            Canvas canvas = Canvas.ofSize(this.getWidth(), this.getHeight()).fit(bitmap.getWidth(), bitmap.getHeight());
-            height = canvas.height();
-            width = canvas.width();
-            int x = (this.getWidth() - canvas.width()) / 2;
-            int y = (this.getHeight() - canvas.height()) / 2;
+            Canvas canvas = Canvas.ofSize(this.getWidth(), this.getHeight())
+                    .fit(bitmap.getWidth(), bitmap.getHeight());
+            setHeightAndWidth(canvas);
             AffineTransform at = new AffineTransform();
-            at.translate(x + paint.offset(), y);
-            double cx = canvas.width() / 2.0;
-            double cy = canvas.height() / 2.0;
-            at.rotate(Math.toRadians(paint.rotation()), cx, cy);
-            at.scale(canvas.width() / (double)bitmap.getWidth(), canvas.height() / (double)bitmap.getHeight());
+            centeredTransformation(paint, at, canvas);
+            rotatedTransformation(paint, at, canvas);
+            scaledTransformation(at, canvas, bitmap);
             g2.drawImage(bitmap, at, null);
         }
 
+        verifyFirstImage();
+    }
+
+    private void verifyFirstImage() {
         if (!firstPaintDone && onFirstPaint != null) {
             firstPaintDone = true;
             onFirstPaint.run();
         }
+    }
+
+    private void scaledTransformation(AffineTransform at, Canvas canvas, BufferedImage bitmap) {
+        at.scale(canvas.width() / (double) bitmap.getWidth(), canvas.height() / (double) bitmap.getHeight());
+    }
+
+    private void rotatedTransformation(Paint paint, AffineTransform at, Canvas canvas) {
+        at.rotate(Math.toRadians(paint.rotation()), canvas.width() / 2.0, canvas.height() / 2.0);
+    }
+
+    private void centeredTransformation(Paint paint, AffineTransform at, Canvas canvas) {
+        at.translate((this.getWidth() - canvas.width()) / 2 + paint.offset(), (this.getHeight() - canvas.height()) / 2);
+    }
+
+    private void setHeightAndWidth(Canvas canvas) {
+        height = canvas.height();
+        width = canvas.width();
     }
 
     @Override

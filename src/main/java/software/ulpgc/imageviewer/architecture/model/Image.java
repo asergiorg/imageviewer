@@ -1,4 +1,4 @@
-package software.ulpgc.imageviewer.architecture;
+package software.ulpgc.imageviewer.architecture.model;
 
 import java.nio.file.Path;
 import java.util.Date;

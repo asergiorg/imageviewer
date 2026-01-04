@@ -1,7 +1,7 @@
 package software.ulpgc.imageviewer.application.gui;
 
-import software.ulpgc.imageviewer.architecture.Command;
-import software.ulpgc.imageviewer.architecture.ImageToolBar;
+import software.ulpgc.imageviewer.architecture.control.Command;
+import software.ulpgc.imageviewer.architecture.view.ImageToolBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +44,10 @@ public class Desktop extends JFrame implements ImageToolBar {
                 "Suprimir",
                 30,
                 new Dimension(60, 60))));
-        panel.add(button(new Button("↻", "Girar a la derecha", 30, new Dimension(60, 60))));
+        panel.add(button(new Button("↻",
+                "Girar a la derecha",
+                30,
+                new Dimension(60, 60))));
         panel.add(label(imageName, new Dimension(400, 25)));
         panel.setBackground(Color.GRAY);
         return panel;
@@ -94,11 +97,11 @@ public class Desktop extends JFrame implements ImageToolBar {
     private JButton button(Button buttonObject) {
         JButton button = new JButton(buttonObject.name());
         button.addActionListener(_ -> commands.get(buttonObject.name()).execute());
-        designe(button, buttonObject);
+        designed(button, buttonObject);
         return button;
     }
 
-    private void designe(JButton button, Button buttonObject) {
+    private void designed(JButton button, Button buttonObject) {
         configureVisibility(button, buttonObject);
         configureButtonStyle(button);
         addToolTip(button, buttonObject);

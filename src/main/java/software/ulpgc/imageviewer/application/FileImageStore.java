@@ -1,6 +1,6 @@
 package software.ulpgc.imageviewer.application;
 
-import software.ulpgc.imageviewer.architecture.ImageStore;
+import software.ulpgc.imageviewer.architecture.io.ImageStore;
 
 import java.io.File;
 import java.util.Arrays;
