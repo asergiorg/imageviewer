@@ -97,7 +97,8 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay, ImageMetr
     }
 
     private void centeredTransformation(Paint paint, AffineTransform at, Canvas canvas) {
-        at.translate((this.getWidth() - canvas.width()) / 2 + paint.offset(), (this.getHeight() - canvas.height()) / 2);
+        at.translate((double) (this.getWidth() - canvas.width()) / 2 + paint.offset(),
+                (double) (this.getHeight() - canvas.height()) / 2);
     }
 
     private void setHeightAndWidth(Canvas canvas) {
