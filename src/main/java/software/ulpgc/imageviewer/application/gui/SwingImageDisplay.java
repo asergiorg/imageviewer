@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -62,19 +63,25 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay, ImageMetr
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.GRAY);
-        g.fillRect(0,0,this.getWidth(), this.getHeight());
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.GRAY);
+        g2.fillRect(0,0,this.getWidth(), this.getHeight());
         for (Paint paint : paints) {
             BufferedImage bitmap = toBufferedImage(paint.bitmap());
-            Canvas canvas = Canvas.ofSize(this.getWidth(), this.getHeight())
-                    .fit(bitmap.getWidth(), bitmap.getHeight());
+            Canvas canvas = Canvas.ofSize(this.getWidth(), this.getHeight()).fit(bitmap.getWidth(), bitmap.getHeight());
             height = canvas.height();
             width = canvas.width();
             int x = (this.getWidth() - canvas.width()) / 2;
             int y = (this.getHeight() - canvas.height()) / 2;
-            g.drawImage(bitmap, x+paint.offset(), y, canvas.width(), canvas.height(), null);
+            AffineTransform at = new AffineTransform();
+            at.translate(x + paint.offset(), y);
+            double cx = canvas.width() / 2.0;
+            double cy = canvas.height() / 2.0;
+            at.rotate(Math.toRadians(paint.rotation()), cx, cy);
+            at.scale(canvas.width() / (double)bitmap.getWidth(), canvas.height() / (double)bitmap.getHeight());
+            g2.drawImage(bitmap, at, null);
         }
-        // Notificar solo la primera vez
+
         if (!firstPaintDone && onFirstPaint != null) {
             firstPaintDone = true;
             onFirstPaint.run();

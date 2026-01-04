@@ -14,18 +14,19 @@ public class ImagePresenter {
         this.toolBar = toolBar;
         this.metrics = metrics;
         if (display instanceof SwingImageDisplay swing) {
-            swing.onFirstPaint(() -> { toolBar.showImageSize(metrics.getCanvasWidth(), metrics.getCanvasHeight()); });
+            swing.onFirstPaint(() -> toolBar.showImageSize(metrics.getCanvasWidth(), metrics.getCanvasHeight()));
         }
         this.display.on((ImageDisplay.Shift) offset -> display.paint(
-                new Paint(image.bitmap(), offset),
+                new Paint(image.bitmap(), offset, image.rotation()),
                 new Paint(
                         offset < 0 ? image.next().bitmap() : image.previous().bitmap(),
-                        offset < 0 ? display.width() + offset : offset - display.width())
+                        offset < 0 ? display.width() + offset : offset - display.width(),
+                        offset < 0 ? image.next().rotation() : image.previous().rotation())
         ));
         this.display.on((ImageDisplay.Released) offset -> {
             if (Math.abs(offset) * 2 > display.width()) image = offset < 0 ? image.next() : image.previous();
             //System.out.println(image.id());
-            display.paint(new Paint(image.bitmap(), 0));
+            display.paint(new Paint(image.bitmap(), 0, image.rotation()));
             toolBar.showImageName(image.id());
             toolBar.showImageMemorySize(image.size());
             toolBar.showImageSize(metrics.getCanvasWidth(), metrics.getCanvasHeight());
@@ -34,7 +35,7 @@ public class ImagePresenter {
 
     public void show(Image image) {
         this.image = image;
-        this.display.paint(new Paint(image.bitmap(), 0));
+        this.display.paint(new Paint(image.bitmap(), 0, image.rotation()));
         this.toolBar.showImageName(image().id());
         this.toolBar.showImageMemorySize(image.size());
         toolBar.showImageSize(metrics.getCanvasWidth(), metrics.getCanvasHeight());

@@ -5,7 +5,6 @@ import software.ulpgc.imageviewer.architecture.ImageToolBar;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.DigestException;
 import java.util.HashMap;
 import java.util.Map;
 

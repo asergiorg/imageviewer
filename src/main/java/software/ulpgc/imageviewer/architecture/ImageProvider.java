@@ -28,6 +28,7 @@ public class ImageProvider {
     private Image load(int index, Function<String, byte[]> loader) {
         return new Image() {
             private byte[] bitmap;
+            private int rotation;
 
             @Override
             public String id() {
@@ -67,6 +68,16 @@ public class ImageProvider {
             @Override
             public Path getPath() {
                 return getFile().toPath();
+            }
+
+            @Override
+            public int rotation() {
+                return rotation;
+            }
+
+            @Override public Image rotateRight() {
+                rotation += 90;
+                return this;
             }
         };
     }

@@ -22,6 +22,7 @@ public class Main {
                 .put("⏴", new PrevCommand(imagePresenter))
                 .put("ⓘ", new InformationCommand(imagePresenter))
                 .put("\uD83D\uDDD1", new DeleteImageCommand(imagePresenter, imageProvider))
+                .put("↻", new RightRotationCommand(imagePresenter))
                 .setVisible(true);
     }
 

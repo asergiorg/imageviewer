@@ -17,6 +17,7 @@ public interface ImageDisplay {
         void offset(int value);
     }
 
-    record Paint(byte[] bitmap, int offset) {}
+    record Paint(byte[] bitmap, int offset, int rotation) {
+    }
 
 }
