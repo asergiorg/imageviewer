@@ -13,13 +13,15 @@ public class Main {
     public static void main(String[] args) {
         root = new File("images");
         ImageStore store = new FileImageStore(root);
-        ImageProvider imageProvider = ImageProvider.with(store.images());
+        ImageProvider imageProvider = ImageProvider.with(store.images(), root);
         SwingImageDisplay imageDisplay = new SwingImageDisplay();
         ImagePresenter imagePresenter = new ImagePresenter(imageDisplay);
         imagePresenter.show(imageProvider.first(Main::readImage));
         Desktop.create(imageDisplay)
-                .put("next", new NextCommand(imagePresenter))
-                .put("prev", new PrevCommand(imagePresenter))
+                .put("⏵", new NextCommand(imagePresenter))
+                .put("⏴", new PrevCommand(imagePresenter))
+                .put("ⓘ", new InformationCommand(imagePresenter))
+                .put("\uD83D\uDDD1", new DeleteImageCommand(imagePresenter, imageProvider))
                 .setVisible(true);
     }
 
