@@ -1,4 +1,4 @@
-package software.ulpgc.imageviewer.application.gui;
+package software.ulpgc.imageviewer.application;
 
 import software.ulpgc.imageviewer.architecture.model.Canvas;
 import software.ulpgc.imageviewer.architecture.view.ImageDisplay;

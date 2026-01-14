@@ -1,4 +1,4 @@
-package software.ulpgc.imageviewer.application.gui;
+package software.ulpgc.imageviewer.application;
 
 import software.ulpgc.imageviewer.architecture.control.Command;
 import software.ulpgc.imageviewer.architecture.view.ImageToolBar;

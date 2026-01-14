@@ -1,6 +1,6 @@
 package software.ulpgc.imageviewer.architecture.presenter;
 
-import software.ulpgc.imageviewer.application.gui.SwingImageDisplay;
+import software.ulpgc.imageviewer.application.SwingImageDisplay;
 import software.ulpgc.imageviewer.architecture.view.ImageDisplay;
 import software.ulpgc.imageviewer.architecture.view.ImageDisplay.Paint;
 import software.ulpgc.imageviewer.architecture.tasks.ImageMetrics;

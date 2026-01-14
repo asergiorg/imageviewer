@@ -1,6 +1,5 @@
-package software.ulpgc.imageviewer.application.gui;
+package software.ulpgc.imageviewer.application;
 
-import software.ulpgc.imageviewer.application.FileImageStore;
 import software.ulpgc.imageviewer.architecture.control.*;
 import software.ulpgc.imageviewer.architecture.io.ImageStore;
 import software.ulpgc.imageviewer.architecture.presenter.ImagePresenter;
